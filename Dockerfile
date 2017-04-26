@@ -133,3 +133,4 @@ RUN ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime \
 
 # helper scripts
 COPY alignment_helper.sh /usr/bin/alignment_helper.sh
+COPY markduplicates_helper.sh /usr/bin/markduplicates_helper.sh
