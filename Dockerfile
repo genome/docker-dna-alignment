@@ -130,3 +130,6 @@ RUN pip install --upgrade pip \
 RUN ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime \
     && echo "America/Chicago" > /etc/timezone \
     && dpkg-reconfigure --frontend noninteractive tzdata
+
+# helper scripts
+COPY alignment_helper.sh /usr/bin/alignment_helper.sh
