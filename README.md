@@ -1,2 +1,2 @@
-# docker-unaligned-to-bqsr
-A fat docker image for running alignment
+# docker-dna-alignment
+A fat docker image for running DNA alignment
