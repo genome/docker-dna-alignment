@@ -159,3 +159,5 @@ RUN ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime \
 # helper scripts
 COPY alignment_helper.sh /usr/bin/alignment_helper.sh
 COPY markduplicates_helper.sh /usr/bin/markduplicates_helper.sh
+COPY umi_alignment.sh /usr/bin/umi_alignment.sh
+COPY umi_realignment.sh /usr/bin/umi_realignment.sh
