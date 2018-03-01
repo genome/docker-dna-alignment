@@ -133,6 +133,12 @@ RUN cd /opt/ \
     && rm -rf lib \
     && rm build.xml
 
+#############
+#fgbio 0.5.0#
+#############
+RUN wget --no-check-certificate https://github.com/fulcrumgenomics/fgbio/releases/download/0.5.0/fgbio-0.5.0.jar \
+    && mv fgbio-0.5.0.jar /opt
+
 ######
 #Toil#
 ######
