@@ -133,6 +133,15 @@ RUN cd /opt/ \
     && rm -rf lib \
     && rm build.xml
 
+##############
+#Picard 2.18.1#
+##############
+
+RUN mkdir /opt/picard-2.18.1/ \
+    && cd /tmp/ \
+    && wget --no-check-certificate https://github.com/broadinstitute/picard/releases/download/2.18.1/picard.jar \
+    && mv picard.jar /opt/picard-2.18.1/
+
 #############
 #fgbio 0.5.0#
 #############
