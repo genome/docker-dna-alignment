@@ -18,6 +18,7 @@ RUN apt-get update -y && apt-get install -y \
     nodejs \
     python-dev \
     python-pip \
+    r-base \
     tzdata \
     unzip \
     wget \
@@ -152,6 +153,7 @@ RUN wget --no-check-certificate https://github.com/fulcrumgenomics/fgbio/release
 #Toil#
 ######
 RUN pip install --upgrade pip \
+    && hash -r pip \
     && pip install toil[cwl]==3.12.0 \
     && cd /tmp/ \
     && wget --no-check-certificate https://raw.githubusercontent.com/tmooney/toil/3.12_lsf_fix/src/toil/batchSystems/lsfHelper.py \
@@ -159,6 +161,9 @@ RUN pip install --upgrade pip \
     && wget --no-check-certificate https://raw.githubusercontent.com/tmooney/toil/3.12_lsf_fix/src/toil/batchSystems/lsf.py \
     && mv -f lsf.py /usr/local/lib/python2.7/dist-packages/toil/batchSystems/ \
     && sed -i 's/select\[type==X86_64 && mem/select[mem/' /usr/local/lib/python2.7/dist-packages/toil/batchSystems/lsf.py
+
+# Install R Packages
+RUN Rscript -e 'install.packages("ggplot2", repos="http://cran.us.r-project.org", dependencies=TRUE)'
 
 # Define a timezone so Java works properly
 RUN ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime \
