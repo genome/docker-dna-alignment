@@ -18,6 +18,7 @@ RUN apt-get update -y && apt-get install -y \
     nodejs \
     python-dev \
     python-pip \
+    r-base \
     tzdata \
     unzip \
     wget \
@@ -133,6 +134,15 @@ RUN cd /opt/ \
     && rm -rf lib \
     && rm build.xml
 
+##############
+#Picard 2.18.1#
+##############
+
+RUN mkdir /opt/picard-2.18.1/ \
+    && cd /tmp/ \
+    && wget --no-check-certificate https://github.com/broadinstitute/picard/releases/download/2.18.1/picard.jar \
+    && mv picard.jar /opt/picard-2.18.1/
+
 #############
 #fgbio 0.5.0#
 #############
@@ -143,6 +153,7 @@ RUN wget --no-check-certificate https://github.com/fulcrumgenomics/fgbio/release
 #Toil#
 ######
 RUN pip install --upgrade pip \
+    && hash -r pip \
     && pip install toil[cwl]==3.12.0 \
     && cd /tmp/ \
     && wget --no-check-certificate https://raw.githubusercontent.com/tmooney/toil/3.12_lsf_fix/src/toil/batchSystems/lsfHelper.py \
@@ -150,6 +161,9 @@ RUN pip install --upgrade pip \
     && wget --no-check-certificate https://raw.githubusercontent.com/tmooney/toil/3.12_lsf_fix/src/toil/batchSystems/lsf.py \
     && mv -f lsf.py /usr/local/lib/python2.7/dist-packages/toil/batchSystems/ \
     && sed -i 's/select\[type==X86_64 && mem/select[mem/' /usr/local/lib/python2.7/dist-packages/toil/batchSystems/lsf.py
+
+# Install R Packages
+RUN Rscript -e 'install.packages("ggplot2", repos="http://cran.us.r-project.org", dependencies=TRUE)'
 
 # Define a timezone so Java works properly
 RUN ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime \
@@ -159,3 +173,5 @@ RUN ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime \
 # helper scripts
 COPY alignment_helper.sh /usr/bin/alignment_helper.sh
 COPY markduplicates_helper.sh /usr/bin/markduplicates_helper.sh
+COPY umi_alignment.sh /usr/bin/umi_alignment.sh
+COPY umi_realignment.sh /usr/bin/umi_realignment.sh
