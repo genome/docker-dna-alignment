@@ -112,36 +112,15 @@ RUN cd /opt/ && unzip /tmp/${maven_package_name}-bin.zip \
     && mv /opt/${gatk_dir_name}-${gatk_version}/protected/gatk-package-distribution/target/gatk-package-distribution-${gatk_version}.jar /opt/GenomeAnalysisTK.jar \
     && rm -rf /opt/${gatk_dir_name}-${gatk_version} /opt/${maven_package_name}
 
-##############
-#Picard 2.4.1#
-##############
-ENV picard_version 2.4.1
-
-RUN cd /opt/ \
-    && git config --global http.sslVerify false \
-    && git clone --recursive https://github.com/broadinstitute/picard.git \
-    && cd picard \
-    && git checkout tags/${picard_version} \
-    && git clone https://github.com/samtools/htsjdk.git \
-    && cd htsjdk \
-    && git checkout tags/${picard_version} \
-    && cd .. \
-    && ant clean all  \
-    && mv dist/picard.jar picard.jar \
-    && ant clean \
-    && rm -rf htsjdk \
-    && rm -rf src \
-    && rm -rf lib \
-    && rm build.xml
-
-##############
+###############
 #Picard 2.18.1#
-##############
+###############
 
 RUN mkdir /opt/picard-2.18.1/ \
     && cd /tmp/ \
     && wget --no-check-certificate https://github.com/broadinstitute/picard/releases/download/2.18.1/picard.jar \
-    && mv picard.jar /opt/picard-2.18.1/
+    && mv picard.jar /opt/picard-2.18.1/ \
+    && ln -s /opt/picard-2.18.1 /opt/picard
 
 #############
 #fgbio 0.5.0#
